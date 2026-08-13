@@ -36,7 +36,7 @@ jobs:
       - name: Check for obvious placeholders
         shell: bash
         run: |
-          if grep -RniE --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.github --exclude='package-lock.json' \
+          if grep -RniE --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.github --exclude-dir=dist --exclude-dir=coverage --exclude='package-lock.json' \
             '(TODO|FIXME|not implemented|coming soon|placeholder|stub|mock)' .; then
             echo 'Potential unfinished implementation markers found.'
             exit 1
