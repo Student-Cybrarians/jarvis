@@ -1,0 +1,43 @@
+name: Web Quality Gate
+
+on:
+  push:
+    branches: [master-branch]
+  pull_request:
+    branches: [master-branch]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm test -- --passWithNoTests
+
+      - name: Check for obvious placeholders
+        shell: bash
+        run: |
+          if grep -RniE --exclude-dir=node_modules --exclude-dir=.git --exclude='package-lock.json' \
+            '(TODO|FIXME|not implemented|coming soon|placeholder|stub|mock)' .; then
+            echo 'Potential unfinished implementation markers found.'
+            exit 1
+          fi
