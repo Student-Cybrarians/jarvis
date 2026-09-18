@@ -754,3 +754,123 @@
   background: var(--color-accent);
   text-decoration: none;
 }
+
+
+/* JARVIS Sensing Core */
+@keyframes jarvis-core-breathe {
+  0%, 100% { transform: scale(0.98); opacity: 0.82; }
+  50% { transform: scale(1.04); opacity: 1; }
+}
+@keyframes jarvis-ring-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes jarvis-ring-spin-reverse {
+  to { transform: rotate(-360deg); }
+}
+@keyframes jarvis-scan-sweep {
+  from { transform: rotate(0deg); opacity: 0.15; }
+  50% { opacity: 0.7; }
+  to { transform: rotate(360deg); opacity: 0.15; }
+}
+
+.jarvis-core {
+  position: relative;
+  width: min(70vw, 520px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  color: var(--color-accent);
+  font-family: var(--font-hud);
+}
+.jarvis-core__rings {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+.jarvis-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 28%, transparent);
+}
+.jarvis-ring--outer {
+  inset: 2%;
+  border-style: dashed;
+  animation: jarvis-ring-spin 18s linear infinite;
+}
+.jarvis-ring--middle {
+  inset: 12%;
+  border-color: color-mix(in srgb, var(--color-accent-purple) 38%, transparent);
+  border-left-color: transparent;
+  animation: jarvis-ring-spin-reverse 11s linear infinite;
+}
+.jarvis-ring--inner {
+  inset: 27%;
+  border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
+  box-shadow: inset 0 0 28px color-mix(in srgb, var(--color-accent) 12%, transparent), 0 0 28px color-mix(in srgb, var(--color-accent) 12%, transparent);
+  animation: jarvis-core-breathe 3.2s ease-in-out infinite;
+}
+.jarvis-scan {
+  position: absolute;
+  inset: 7%;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0 72%, color-mix(in srgb, var(--color-accent) 38%, transparent) 78%, transparent 84% 100%);
+  animation: jarvis-scan-sweep 5s linear infinite;
+  mask-image: radial-gradient(circle, transparent 0 58%, black 60% 62%, transparent 64%);
+  -webkit-mask-image: radial-gradient(circle, transparent 0 58%, black 60% 62%, transparent 64%);
+}
+.jarvis-core__center {
+  position: relative;
+  z-index: 2;
+  width: 38%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-accent) 13%, var(--color-bg)) 0%, var(--color-bg) 68%);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 48%, transparent);
+  box-shadow: 0 0 42px color-mix(in srgb, var(--color-accent) 18%, transparent), inset 0 0 28px color-mix(in srgb, var(--color-accent) 9%, transparent);
+  animation: jarvis-core-breathe 3.2s ease-in-out infinite;
+}
+.jarvis-core__eyebrow,
+.jarvis-core__caption {
+  font-size: clamp(6px, 0.65vw, 9px);
+  letter-spacing: 0.16em;
+  color: var(--color-text-tertiary);
+}
+.jarvis-core__state {
+  margin-top: 7px;
+  max-width: 88%;
+  font-size: clamp(8px, 0.9vw, 12px);
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+}
+.jarvis-core__confidence {
+  margin-top: 8px;
+  font-size: clamp(7px, 0.7vw, 10px);
+  color: var(--color-accent);
+}
+.jarvis-core__count {
+  margin-top: 5px;
+  font-size: clamp(24px, 4vw, 44px);
+  line-height: 1;
+  font-weight: 600;
+}
+.jarvis-core--fall .jarvis-core__center {
+  color: var(--color-error);
+  border-color: color-mix(in srgb, var(--color-error) 70%, transparent);
+  box-shadow: 0 0 50px color-mix(in srgb, var(--color-error) 22%, transparent), inset 0 0 30px color-mix(in srgb, var(--color-error) 10%, transparent);
+}
+.jarvis-core--detected .jarvis-ring--outer {
+  border-color: color-mix(in srgb, var(--color-accent) 52%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .jarvis-ring,
+  .jarvis-scan,
+  .jarvis-core__center {
+    animation: none !important;
+  }
+}
